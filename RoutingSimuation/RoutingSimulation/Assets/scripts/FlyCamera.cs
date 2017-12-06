@@ -12,7 +12,7 @@ public class FlyCamera : MonoBehaviour {
     shift : Makes camera accelerate
     space : Moves camera on X and Z axis only.  So camera doesn't gain any height*/
 
-
+	public Vector3 initPosition = Vector3.zero;
 	public float mainSpeed = 100.0f; //regular speed
 	public float shiftAdd = 250.0f; //multiplied by how long shift is held.  Basically running
 	public float maxShift = 1000.0f; //Maximum speed when holdin gshift
@@ -24,11 +24,10 @@ public class FlyCamera : MonoBehaviour {
 	private float totalRun= 1.0f;
 
 	void Awake() {
-		Debug.Log ("FlyCamera Awake() - RESETTING CAMERA POSITION"); // nop?
-		// nop:
+				// nop:
 		//transform.position.Set(0,8,-32);
 		//transform.rotation.Set(15,0,0,1);
-		transform.position = new Vector3(0,20,-22);
+		transform.position = initPosition;
 		transform.rotation = Quaternion.Euler(45,0,0);
 	}
 
@@ -40,8 +39,7 @@ public class FlyCamera : MonoBehaviour {
 			lastMouse = Input.mousePosition; // $CTK reset when we begin
 		}
 
-		if (!rotateOnlyIfMousedown || 
-			(rotateOnlyIfMousedown && Input.GetMouseButton(1)))
+		if (!rotateOnlyIfMousedown || (rotateOnlyIfMousedown && Input.GetMouseButton(1)))
 		{
 			lastMouse = Input.mousePosition - lastMouse ;
 			lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 );
