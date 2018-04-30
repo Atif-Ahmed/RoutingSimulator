@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class carController_new : MonoBehaviour {
 
@@ -15,8 +16,8 @@ public class carController_new : MonoBehaviour {
 	float speedReductionFactor = 1.0f; // 10 = very slow  - 100 means max speed;
 
 
-	[HideInInspector]
-	public int Age = 0;
+	//[HideInInspector]
+	public int DriverAge;
 	[HideInInspector]
 	public bool Gender = false; // Men = false;  Female = true;
 	[HideInInspector]
@@ -26,9 +27,9 @@ public class carController_new : MonoBehaviour {
 	[HideInInspector]
 	public float Distance = 10e10f;
 	[HideInInspector]
-	public bool  GenderPref = true;
+	public bool  GenderPref = false;
 	[HideInInspector]
-	public bool AgePref = true;
+	public bool AgePref = false;
 
 
 	// Use this for initialization
@@ -36,6 +37,13 @@ public class carController_new : MonoBehaviour {
 		// set the target position for vehicle
 		getCurrentNode();
 		setTargetNode();
+		WaitingTime = UnityEngine.Random.Range (0.0f, 15.0f);
+		Rating = UnityEngine.Random.Range (0, 6);
+		DriverAge = UnityEngine.Random.Range (1, 4);
+		Gender = (UnityEngine.Random.Range (0, 2) == 1);
+		AgePref = false;
+		GenderPref = false;
+		ShowGenderAndAge();
 	}
 
 	// Update is called once per frame
@@ -91,5 +99,13 @@ public class carController_new : MonoBehaviour {
 	void getCurrentNode(){
 		List<Node> nodeList = SimController.nodeList;
 		currentNode = nodeList.Find (node => (Vector3.Magnitude(node.location - transform.position)<SimController.sensitvityRadius));
+	}
+
+	void ShowGenderAndAge ()
+	{
+		Transform canvas = transform.Find("Canvas");
+		canvas.Find ("Gender").GetComponent<Text>().text = Gender? "Female":"Male" ;
+		canvas.Find ("Age").GetComponent<Text>().text = DriverAge.ToString();
+
 	}
 }

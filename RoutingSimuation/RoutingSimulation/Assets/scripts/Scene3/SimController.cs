@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using System.IO;
 
 class SimController : MonoBehaviour
 {
@@ -28,6 +29,7 @@ class SimController : MonoBehaviour
 	static float gridOffset = 35.0f;
 	// Pecentage of grid Values to be considered
 	int nodeCount = 0;
+	bool firstAgeCall = true;
 
 
 	public Button btnEuclidean = null;
@@ -40,6 +42,20 @@ class SimController : MonoBehaviour
 
 	public GameObject SelectedCarContainer = null;
 	public GameObject SelectedCarEntry = null;
+
+	public Button SaveButton = null;
+
+
+
+	//user prefs inputs
+
+	public Toggle toggleGenderPref = null;
+	public Toggle toggleAgePref = null;
+	public Toggle Gender_Male = null;
+	public Toggle Gender_Female = null;
+	public Toggle Age_30 = null;
+	public Toggle Age_49 = null;
+	public Toggle Age_50 = null;
 
 
 
@@ -59,7 +75,13 @@ class SimController : MonoBehaviour
 
 
 	public static bool  isRiding = false;
+	public static bool isSimulating = false;
+	public static int SimulationMode = 0; 
 
+	// 0 = no Simulation
+	// 1 = Euclidean
+	// 2 = Ant Colony
+	// 3 = MPAC
 
 
 	//GameObject EuclideanCar = null;
@@ -97,6 +119,17 @@ class SimController : MonoBehaviour
 		btnRefresh.onClick.AddListener (onRefreshButton);
 		toggleHideAnts.onValueChanged.AddListener ((value) =>{onToggleHideAnts();});
 
+
+		toggleGenderPref.onValueChanged.AddListener ((value)=>{onToggleGenderPref(value);});
+		toggleAgePref.onValueChanged.AddListener((value)=>{onToggleAgePref(value);});
+		Gender_Male.onValueChanged.AddListener((value)=>{onToggleGenderMale(value);});
+		Gender_Female.onValueChanged.AddListener((value)=>{onToggleGenderFemale(value);});
+
+		Age_30.onValueChanged.AddListener((value)=>{onToggleAge30(value);firstAgeCall = true;});
+		Age_49.onValueChanged.AddListener((value)=>{onToggleAge49(value);firstAgeCall = true;});
+		Age_50.onValueChanged.AddListener((value)=>{onToggleAge50(value);firstAgeCall = true;});
+
+		SaveButton.onClick.AddListener (onClickSave);
 
 		carGenerator.Generate (carCount);
 	}
@@ -309,6 +342,8 @@ class SimController : MonoBehaviour
 		if (isRiding) {	
 			Refresh ();
 			disableButtons ();
+			isSimulating = true;
+			SimulationMode = 1;
 			carGenerator.RefreshCarColor ();
 			List<GameObject> selectedCars = algoEuclidean.GetCarsInRadius (carGenerator.getCarList (), userSelector.regionRadius, UserSelector.selectedNode);
 			GameObject EuclideanCar = algoEuclidean.SelectNearestCar (selectedCars, UserSelector.selectedNode);
@@ -321,6 +356,8 @@ class SimController : MonoBehaviour
 		if (isRiding) {	
 			Refresh ();
 			disableButtons ();
+			isSimulating = true;
+			SimulationMode = 2;
 			carGenerator.RefreshCarColor ();
 			List<GameObject> selectedCars = algoAntColony.GetCarsInRadius (carGenerator.getCarList (), userSelector.regionRadius, UserSelector.selectedNode);			
 			algoAntColony.startAntColony (selectedCars, UserSelector.selectedNode);
@@ -333,6 +370,8 @@ class SimController : MonoBehaviour
 		if (isRiding) {	
 			Refresh ();
 			disableButtons ();
+			isSimulating = true;
+			SimulationMode = 3;
 			carGenerator.RefreshCarColor ();
 			algoMPAC.startMPAC ();
 		}
@@ -379,6 +418,8 @@ class SimController : MonoBehaviour
 		transform.GetComponent<UserSelector>().resetNode ();
 		DestroyPheremones ();
 		MPAC.clearMapPheremones ();
+		isSimulating = false;
+		SimulationMode = 0;
 
 	}
 
@@ -408,5 +449,115 @@ class SimController : MonoBehaviour
 				ant.GetComponent<Renderer> ().enabled = !ant.GetComponent<Renderer> ().enabled;			
 		}
 
+	}
+
+	void onToggleGenderPref (bool value)
+	{
+		UserSelector.GenderPref = value;
+	}
+
+	void onToggleAgePref (bool value)
+	{
+		UserSelector.AgePref = value;
+	}
+
+	void onToggleGenderMale (bool value)
+	{
+		if (value) {
+			UserSelector.Gender = false;
+			Gender_Female.isOn = false;
+		} else {
+			Gender_Female.isOn = true;
+			UserSelector.Gender = true;
+		}
+	}
+
+	void onToggleGenderFemale (bool value)
+	{
+		if (value) {
+			UserSelector.Gender = true;
+			Gender_Male.isOn = false;
+		} else {
+			Gender_Male.isOn = true;
+			UserSelector.Gender = false;
+		}
+	}
+
+	void onToggleAge30 (bool value)
+	{
+		if (value && firstAgeCall) {
+			firstAgeCall = false;
+			UserSelector.AgeGroup = 1;
+			Age_49.isOn = false;
+			Age_50.isOn = false;
+
+		} if(!value && firstAgeCall) {
+			firstAgeCall = false;
+			UserSelector.AgeGroup = 2;
+			Age_49.isOn = true;
+			Age_50.isOn = false;
+		}
+	}
+
+	void onToggleAge49 (bool value)
+	{
+		if (value && firstAgeCall) {
+			firstAgeCall = false;
+			UserSelector.AgeGroup = 2;
+			Age_30.isOn = false;
+			Age_50.isOn = false;
+
+		} if(!value && firstAgeCall) {
+			firstAgeCall = false;
+			UserSelector.AgeGroup = 1;
+			Age_30.isOn = true;
+			Age_50.isOn = false;
+		}
+	}
+
+	void onToggleAge50 (bool value)
+	{
+		if (value && firstAgeCall) {
+			firstAgeCall = false;
+			UserSelector.AgeGroup = 3;
+			Age_30.isOn = false;
+			Age_49.isOn = false;
+
+		} if(!value && firstAgeCall) {
+			firstAgeCall = false;
+			UserSelector.AgeGroup = 2;
+			Age_49.isOn = true;
+			Age_30.isOn = false;
+		}
+	}
+
+	void onClickSave ()
+	{
+		GameObject car = null;
+		// check if the simulation is running....
+		if (isRiding) {	
+			if (isSimulating) {
+				String data =""; 
+				//check the simulation tyep
+				if (SimulationMode == 1) {
+					car = Euclidean.FinalSelectedCar;
+					data = Euclidean.getSavingData();
+				}
+				if (SimulationMode == 2) {
+					car = AntColonyController.FirstCar;
+					data = AntColonyController.getSavingData ();
+				}
+				if (SimulationMode == 3) {
+					data = MPAC.getSavingData ();
+				}
+
+				// save the data on a local file
+				StreamWriter writer = new StreamWriter("Data.csv", true);
+				writer.WriteLine(data);
+				writer.Close();
+
+			}
+		
+		}
 	}
 }

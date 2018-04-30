@@ -30,6 +30,8 @@ public class AntColony : MonoBehaviour {
 	public Node carNode;
 	public Node carTargetNode;
 
+	public GameObject car;
+
 	public float shortestDistance=15e10f;
 	public GameObject entry = null;
 
@@ -105,9 +107,7 @@ public class AntColony : MonoBehaviour {
 			float distance = Vector3.Magnitude (b - a);
 			foreach (Pheremone p in pheremoneList) {
 				if((p.EndA == a && p.EndB == b) || (p.EndB == a && p.EndA == b)){
-
-					Debug.Log ("Pheremone" + TotalPheremone/totalDistance );
-					p.addPheremone (TotalPheremone / totalDistance); ////////////<c><c><c>========= updat thsis
+					p.addPheremone (TotalPheremone / totalDistance); ////////////========= updat thsis
 					p.UpdateColor();
 				}
 			}
@@ -137,6 +137,8 @@ public class AntColony : MonoBehaviour {
 			p.UpdatePheremoneState ();
 		}
 	}
+
+
 
 
 }

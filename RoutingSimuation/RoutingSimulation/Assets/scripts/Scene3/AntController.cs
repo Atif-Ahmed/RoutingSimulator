@@ -156,7 +156,7 @@ class AntController : MonoBehaviour
 			List<Node> nodeList = transform.parent.GetComponent<AntColony> ().AntColonyNodeList;
 			targetNode = nodeList.Find (node => (node.location == targetPosition));
 			if (targetNode == null) {
-				Debug.Log ("target node null");
+				
 			}
 		} else {
 			targetNode = currentNode;
@@ -210,6 +210,11 @@ class AntController : MonoBehaviour
 				entry.GetComponent<Image> ().color = transform.parent.GetComponent<AntColony> ().colonyColor;
 				transform.parent.GetComponent<AntColony> ().entry = entry;
 				transform.parent.GetComponent<AntColony> ().foundUser = true;
+				if (AntColonyController.isFirstCar) {
+					AntColonyController.isFirstCar = false;
+					AntColonyController.FirstCar = transform.GetComponentInParent<AntColony> ().car;
+				}
+
 			}
 			if (reachedUser == false) {
 				//update pheremone... from the food all the way to the source.....

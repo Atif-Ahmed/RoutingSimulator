@@ -9,6 +9,7 @@ public class Euclidean : MonoBehaviour {
 	public Material disableCarMat;
 	public Material enableCarMat;
 	public Material selectedCarMat;
+	public static GameObject FinalSelectedCar;
 
 	List<GameObject> GetCarListInRadius (List<GameObject> cars, float radius, GameObject userLocation)
 	{
@@ -30,7 +31,8 @@ public class Euclidean : MonoBehaviour {
 		//disable all the cars
 		foreach (GameObject car in cars) {
 			foreach (Transform child in car.transform) {
-				child.GetComponent<MeshRenderer> ().material = disableCarMat;
+				if(child.GetComponent<MeshRenderer>() != null)
+					child.GetComponent<MeshRenderer> ().material = disableCarMat;
 			}
 		}
 		List<GameObject> selectedCars = GetCarListInRadius (cars, radius, userLocation);
@@ -46,7 +48,8 @@ public class Euclidean : MonoBehaviour {
 		//enable only the selected cars
 		foreach (GameObject car in selectedCars) {
 			foreach (Transform child in car.transform) {
-				child.GetComponent<MeshRenderer> ().material = enableCarMat;
+				if(child.GetComponent<MeshRenderer>() != null)
+					child.GetComponent<MeshRenderer> ().material = enableCarMat;
 			}
 		}
 
@@ -68,7 +71,8 @@ public class Euclidean : MonoBehaviour {
 		}
 		//change car material
 		foreach (Transform child in finalCar.transform) {
-			child.GetComponent<MeshRenderer> ().material = selectedCarMat;
+			if(child.GetComponent<MeshRenderer>() != null)
+				child.GetComponent<MeshRenderer> ().material = selectedCarMat;
 		}
 
 		DrawLine (userLocation.transform.position, finalCar.transform.position, Color.red,userLocation);
@@ -76,6 +80,7 @@ public class Euclidean : MonoBehaviour {
 		// put the name in the lists
 		GameObject entry = Instantiate(transform.GetComponent<SimController>().SelectedCarEntry,transform.GetComponent<SimController>().SelectedCarContainer.transform);
 		entry.GetComponent<Image> ().color = Color.red;
+		FinalSelectedCar = finalCar;
 		return finalCar;
 	}
 
@@ -86,7 +91,7 @@ public class Euclidean : MonoBehaviour {
 		myLine.transform.position = new Vector3(start.x, start.y+0.5f,start.z);
 		myLine.AddComponent<LineRenderer>();
 		LineRenderer lr = myLine.GetComponent<LineRenderer>();
-		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+		lr.material = selectedCarMat;
 		lr.startColor = color;
 		lr.endColor = color;
 		lr.startWidth = 0.5f;
@@ -94,5 +99,33 @@ public class Euclidean : MonoBehaviour {
 		lr.SetPosition(0, new Vector3(start.x, start.y+0.5f,start.z));
 		lr.SetPosition(1, new Vector3(end.x, end.y+0.5f,end.z));
 		return myLine;
+	}
+
+	public static string getSavingData(){
+
+		string saveString = "Euclidean,";
+		saveString = saveString + "0.0,"; // Distance
+		saveString = saveString + "0.0,"; // Total Traffic
+		saveString = saveString + "0.0,"; // Traffic Lights
+		saveString = saveString + "0.0,"; // Total Road Risk
+
+		saveString = saveString + FinalSelectedCar.transform.position.x +","; // CarLocation_X
+		saveString = saveString + FinalSelectedCar.transform.position.z+","; // CarLocation_Y
+		saveString = saveString + FinalSelectedCar.GetComponent<carController_new>().DriverAge+","; // age
+		saveString = saveString + (FinalSelectedCar.GetComponent<carController_new>().Gender? "Female" :"Male")+","; // Gender
+		saveString = saveString + FinalSelectedCar.GetComponent<carController_new>().Rating+","; // Rating
+		saveString = saveString + FinalSelectedCar.GetComponent<carController_new>().WaitingTime+","; // Waiting Time
+		saveString = saveString + FinalSelectedCar.GetComponent<carController_new>().GenderPref+","; // GenderPref
+		saveString = saveString + FinalSelectedCar.GetComponent<carController_new>().AgePref+","; // AgePref
+
+		saveString = saveString + UserSelector.selectedNode.transform.position.x+","; // UserLocation_X
+		saveString = saveString + UserSelector.selectedNode.transform.position.z+","; // UserLocation_Y
+		saveString = saveString + UserSelector.AgeGroup+","; // Age
+		saveString = saveString + (UserSelector.Gender ? "Female" :"Male") +","; // Gender
+		saveString = saveString + UserSelector.GenderPref+","; // GenderPref
+		saveString = saveString + UserSelector.AgePref+","; // AgePref
+
+		return saveString;
+
 	}
 }

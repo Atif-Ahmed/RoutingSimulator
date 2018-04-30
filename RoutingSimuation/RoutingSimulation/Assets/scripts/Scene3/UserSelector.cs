@@ -14,13 +14,13 @@ class UserSelector : MonoBehaviour {
 	public static GameObject selectedNode = null;
 
 	[HideInInspector]
-	public bool Gender = false; // Men = false;  Female = true;
+	public static bool Gender = false; // Men = false;  Female = true;
 	[HideInInspector]
-	public int Age = 0;
+	public static int AgeGroup = 2; //1: less than 30
 	[HideInInspector]
-	public bool GenderPref = true;
+	public static bool GenderPref = false;
 	[HideInInspector]
-	public bool AgePref = true;
+	public static bool AgePref = false;
 
 
 	void Update()

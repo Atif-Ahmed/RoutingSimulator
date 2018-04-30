@@ -42,7 +42,7 @@ public class FlyCamera : MonoBehaviour {
 		if (!rotateOnlyIfMousedown || (rotateOnlyIfMousedown && Input.GetMouseButton(1)))
 		{
 			lastMouse = Input.mousePosition - lastMouse ;
-			lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 );
+			lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 ); // set -lastMouse.y for Atif control
 			lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x , transform.eulerAngles.y + lastMouse.y, 0);
 			transform.eulerAngles = lastMouse;
 			lastMouse =  Input.mousePosition;

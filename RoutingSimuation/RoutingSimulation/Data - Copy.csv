@@ -1,0 +1,36 @@
+Euclidean,107.9,200,1,0,13.49274,14.17129,1,Male,1,9.874077,FALSE,FALSE,-9.796,12.857,2,Male,FALSE,FALSE
+Ant Colony,29.3711,160,0,0,7.790555,-8.494223,1,Female,4,8.688854,FALSE,FALSE,-9.796,12.857,2,Male,FALSE,FALSE
+MPAC,29.3711,160,0,0,7.790555,-8.494223,1,Female,4,8.688854,FALSE,FALSE,-9.796,12.857,2,Male,FALSE,FALSE
+Euclidean,96.3,150,0,0,0.3903001,1.608577,1,Male,1,1.300156,FALSE,FALSE,-9.117,-8.907,2,Male,FALSE,FALSE
+Ant Colony,67.1731,120,2,0,4.283339,-2.33619,3,Male,3,0.8383942,FALSE,FALSE,-9.117,-8.907,2,Male,FALSE,FALSE
+MPAC,41.24938,100,2,0,6.515318,-29.32822,3,Male,3,0.5650055,FALSE,FALSE,-9.117,-8.907,2,Male,FALSE,FALSE
+Euclidean,45.8,60,5,0,21.06773,22.19323,1,Male,3,3.053502,False,False,11.91,12.37,2,Male,False,False,
+Ant Colony,31.80967,40,3,0,28.28561,21.89607,3,Male,3,8.058722,False,False,11.91,12.37,2,Male,False,False,
+MPAC,20.57846,30,2,0,-3.650275,25.83667,3,Female,2,11.74596,False,False,11.91,12.37,2,Male,False,False,
+Euclidean,44.08,160,4,0,11.87016,-19.10904,1,Male,4,13.18383,False,False,10.623,-7.117,2,Male,False,False,
+Ant Colony,26.55816,120,2,0,-5.360842,-12.09737,1,Female,0,9.519045,False,False,10.623,-7.117,2,Male,False,False,
+MPAC,20.95828,60,2,0,-9.876259,-8.442629,3,Male,5,10.71473,False,False,10.623,-7.117,2,Male,False,False,
+Euclidean,74.3,100,4,0,-2.756948,2.376437,2,Male,1,5.943056,False,False,-9.342,-7.744,2,Male,False,False,
+Ant Colony,35.09473,140,4,0,2.38479,-3.463682,1,Male,4,11.70593,False,False,-9.342,-7.744,2,Male,False,False,
+MPAC,32.51196,110,3,0,-29.6413,-24.26299,2,Male,4,14.53349,False,False,-9.342,-7.744,2,Male,False,False,
+Euclidean,41.08532,150,1,0.,-28.75611,16.03119,1,Male,5,5.837455,False,False,-10.522,9.519,2,Male,False,False,
+Ant Colony,41.08532,150,1,0,-28.75611,16.03119,1,Male,5,5.837455,False,False,-10.522,9.519,2,Male,False,False,
+MPAC,27.89911,20,1,0,-25.19505,-7.061963,3,Female,4,9.870897,False,False,-10.522,9.519,2,Male,False,False,
+Euclidean,62.35,230,5,0,29.44496,10.8503,1,Female,0,8.045864,False,False,11.884,12.439,2,Male,False,False,
+Ant Colony,62.35134,230,5,0,29.44496,10.8503,1,Female,0,8.045864,False,False,11.884,12.439,2,Male,False,False,
+MPAC,40.53538,130,0,0,-10.49974,32.69599,2,Male,1,0.07940769,False,False,11.884,12.439,2,Male,False,False,
+Euclidean,74.60,12,4,0,18.97851,-20.03047,3,Male,4,2.611721,False,False,8.814,-10.88,2,Male,False,False,
+Ant Colony,16.9521,50,1,0,-7.847674,-7.755517,2,Male,4,3.126131,False,False,8.814,-10.88,2,Male,False,False,
+MPAC,16.9521,50,1,0,-7.847674,-7.755517,2,Male,4,3.126131,False,False,8.814,-10.88,2,Male,False,False,
+Euclidean,115.11,240,4,0,-2.208858,4.80718,1,Female,1,4.35439,False,False,9.656,9.708,2,Male,False,False,
+Ant Colony,48.21317,190,4,0,11.39424,29.26196,2,Female,4,2.34893,False,False,9.656,9.708,2,Male,False,False,
+MPAC,41.02428,140,3,0,29.5233,-7.649164,3,Female,4,2.132481,False,False,9.656,9.708,2,Male,False,False,
+Euclidean,42.90076,190,4,0,-26.71598,12.89188,2,Female,0,5.229152,False,False,-29.47,29.209,2,Male,False,False,
+Ant Colony,42.90076,190,4,0,-26.71598,12.89188,2,Female,0,5.229152,False,False,-29.47,29.209,2,Male,False,False,
+MPAC,28.23569,140,2,0,-13.32911,15.19205,2,Male,5,0.004259348,False,False,-29.47,29.209,2,Male,False,False,
+Euclidean,61.15899,170,4,0,-23.21664,-21.18738,3,Male,2,7.955798,False,False,-8.31,-28.443,2,Male,False,False,
+Ant Colony,61.15899,170,4,0,-23.21664,-21.18738,3,Male,2,7.955798,False,False,-8.31,-28.443,2,Male,False,False,
+MPAC,47.63058,40,3,0,22.89365,-25.65724,1,Female,4,13.1164,False,False,-8.31,-28.443,2,Male,False,False,
+Euclidean,44.08,90,0.0,0.0,5.022666,-16.21588,3,Female,0,12.27545,False,False,-7.553,-7.959,2,Male,False,False,
+Ant Colony,39.76112,140,1,0,5.022666,-16.21588,3,Female,0,12.27545,False,False,-7.553,-7.959,2,Male,False,False,
+MPAC,28.45305,40,1,0,2.51592,9.724883,1,Female,3,13.21499,False,False,-7.553,-7.959,2,Male,False,False,

@@ -8,6 +8,7 @@ public class MPACAntController : MonoBehaviour
 
 
 	public static float speed = 1.5f;
+	public float speedOffset = 0.0f;
 	Node currentNode = null;
 	Node targetNode = null;
 	Vector3 previousLocation = Vector3.zero;
@@ -28,14 +29,14 @@ public class MPACAntController : MonoBehaviour
 		pathTrace = new List<Node> ();
 		pathTrace.Add (currentNode);
 		pathTrace.Add (targetNode);
+		speedOffset = UnityEngine.Random.Range (-0.05f, 0.05f);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-
-
-		float step = speed * Time.deltaTime * (1 - speedReductionFactor / 1.1f);
+		
+		float step = (speed + speed*speedOffset) * Time.deltaTime * (1 - speedReductionFactor / 1.1f);
 		transform.position = Vector3.MoveTowards (transform.position, targetNode.location, step);
 
 
@@ -43,14 +44,18 @@ public class MPACAntController : MonoBehaviour
 		Vector3 newDir = Vector3.RotateTowards (transform.forward, targetDir, speed * Time.deltaTime * 2.0f, 0.0F);
 		transform.rotation = Quaternion.LookRotation (newDir);
 
+		// check if a car is found....
+		isCarFound ();
+
 		// if ant is at the user location.....
 		isAtNest ();
 
 		// check if the car is at node.....
 		isAtNode ();
 
-		// check if a car is found....
-		isCarFound ();
+
+
+
 	}
 
 	void setTargetNode (Vector3 previousLocation)
@@ -66,7 +71,10 @@ public class MPACAntController : MonoBehaviour
 					foreach (Vector3 way in currentNode.ways) {
 						float pathPheremoneSum = 0;
 						foreach (GameObject car in CarGenerator.carList) {
-							pathPheremoneSum += transform.parent.GetComponent<MPAC> ().getPheremoneValue (currentNode.location, way, car);
+							float thisPathPheremone = transform.parent.GetComponent<MPAC> ().getPheremoneValue (currentNode.location, way, car);
+							if (thisPathPheremone >= pathPheremoneSum) {
+								pathPheremoneSum = thisPathPheremone;
+							}
 						}
 						pheremoneList.Add (pathPheremoneSum);
 					}
@@ -105,7 +113,6 @@ public class MPACAntController : MonoBehaviour
 				List<Node> nodeList = MPAC.MPACColonyNodeList;
 				targetNode = nodeList.Find (node => (node.location == targetPosition));
 				if (targetNode == null) {
-					Debug.Log ("target node null");
 				}
 			} else {
 				targetNode = currentNode;
@@ -130,9 +137,9 @@ public class MPACAntController : MonoBehaviour
 			foreach (GameObject car in MPAC.carlist) {
 				// check if at any car.....
 				if (Vector3.Magnitude (car.transform.position - transform.position) <= SimController.sensitvityRadius &&
-				    this.targetNode.location == car.transform.GetComponent<carController_new> ().targetNode.location &&
-				    this.currentNode.location == car.transform.position) {
-
+				    //this.targetNode.location == car.transform.GetComponent<carController_new> ().targetNode.location &&
+					//this.currentNode.location == car.transform.position) {
+					this.targetNode.location == car.transform.position) {
 					Color color = new Color ();
 					if (MPAC.selectedCarlist.Contains (car)) {
 						//if car is already added just color the ant with same color as car.
@@ -155,9 +162,10 @@ public class MPACAntController : MonoBehaviour
 					if (hasVisitedCar == false) {
 
 						transform.GetChild (0).GetComponent<Renderer> ().material.SetColor ("_Color", color);
+						transform.parent.GetComponent<MPAC> ().updatePathPheremones (pathTrace, color,car);
 						pathTrace.RemoveAt (pathTrace.Count - 1);
 						//update the pheremones...on the road.
-						transform.parent.GetComponent<MPAC> ().updatePathPheremones (pathTrace, color,car);
+
 					}
 
 					hasVisitedCar = true;	
